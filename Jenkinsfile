@@ -5,8 +5,8 @@ pipeline {
            steps {
               
                 sh 'docker build -t new:latest .' 
-                  sh 'docker tag  new madhavikdm/myrepo-agora:latest'
-                sh 'docker tag new madhavikdm/myrepo-agora:$BUILD_NUMBER'
+                  sh 'docker tag  new madhavikadam/myrepo-agora:latest'
+                sh 'docker tag new madhavikadam/myrepo-agora:$BUILD_NUMBER'
                
           }
         }
@@ -15,8 +15,8 @@ pipeline {
           
             steps {
         withDockerRegistry([ credentialsId: "docker", url: "" ]) {
-          sh  'docker push madhavikdm/myrepo-agora:latest'
-          sh  'docker push madhavikdm/myrepo-agora:$BUILD_NUMBER' 
+          sh  'docker push madhavikadam/myrepo-agora:latest'
+          sh  'docker push madhavikadam/myrepo-agora:$BUILD_NUMBER' 
         }
                   
           }
@@ -25,14 +25,14 @@ pipeline {
       stage('Run Docker container on Jenkins Agent') {
              
             steps {
-                sh "docker run -d -p 5000:3000  madhavikdm/myrepo-agora"
+                sh "docker run -d -p 5000:3000  madhavikadam/myrepo-agora"
  
             }
         }
  stage('Run Docker container on remote hosts') {
              
             steps {
-                sh "docker -H ssh://localhost run -d -p 5000:3000  madhavikdm/myrepo-agora"
+                sh "docker -H ssh://localhost run -d -p 5000:3000  madhavikadam/myrepo-agora"
  
             }
         }
