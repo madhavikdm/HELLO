@@ -1,75 +1,47 @@
- node {      
-
-    def app
-
-
-
-    stage('Clone repository') {
-
-        /* Cloning the Repository to our Workspace */
-
-        echo '### Started cloning the repository..'
-
-        checkout scm
-
-        echo '### Repository cloned successfully'
-
+pipeline {
+    agent any
+    environment {
+        AWS_ACCOUNT_ID="180522143609"
+        AWS_DEFAULT_REGION="us-east-1" 
+        IMAGE_REPO_NAME="jenkinspipeline"
+        IMAGE_TAG="latest"
+        REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
     }
-
-
-
-    stage('Build image') {
-
-        /* This builds the actual image */
-
-        echo '### Started Building the docker image..'
-
-       
-        app = docker.build('mydemo_2')  .
-
-        echo '### Docker build successful.'
-
-     }
-
-
-
-    stage('Test image') {        
-
-        app.inside {
-
-            echo "Tests passed"    
-
+   
+    stages {
+        
+         stage('Logging into AWS ECR') {
+            steps {
+                script {
+                sh "aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
+                }
+                 
+            }
         }
-
-    }
-
-
-
-    stage('Push image') {
-
-        echo '### Started pushing the docker image..'
-
-        /*
-            You would need to first register with DockerHub before you can push images to your account
-        */
-
-        docker.withRegistry('https://hub.docker.com/repository/docker/madhavikadam/myrepo-agora', 'docker') {
-
-            // app.push("${env.BUILD_NUMBER}")
-
-            app.push("latest")
-
+        
+        stage('Cloning Git') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'git', url: 'https://github.com/madhavikdm/HELLO.git']]])     
+            }
         }
-
-        echo '### Docker image pushed successfully.'  
-
-    }  
-    stage('Docker Run') {
-     steps{
-         
-            app.run('-p 5000:3000 mydemo_2')
-         
+  
+    // Building Docker images
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build "${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+        }
       }
     }
-
+   
+    // Uploading Docker images into AWS ECR
+    stage('Pushing to ECR') {
+     steps{  
+         script {
+                sh "docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPOSITORY_URI}:$IMAGE_TAG"
+                sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+         }
+        }
+      }
+    }
 }
