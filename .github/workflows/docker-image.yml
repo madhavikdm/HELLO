@@ -25,5 +25,4 @@ jobs:
     - name: Push Docker image to Docker Hub
       run: docker push madhavikadam/demo1:29
       
-    - name: Run Docker image locally
-      run: docker run -d -p 172.27.16.1:5000:5000 madhavikadam/demo1:29
+ 
