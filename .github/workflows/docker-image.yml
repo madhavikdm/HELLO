@@ -24,3 +24,6 @@ jobs:
       
     - name: Push Docker image to Docker Hub
       run: docker push madhavikadam/demo1:latest
+      
+    -name: Run on localhost
+      run: docker run --network="host" 
