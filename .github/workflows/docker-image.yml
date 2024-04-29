@@ -26,4 +26,4 @@ jobs:
       run: docker push madhavikadam/demo1:29
       
     - name: Run Docker image locally
-      run: docker run -d -p 5000:5000 madhavikadam/demo1:29
+      run: docker run -d -p 172.31.21.26:5000:5000 madhavikadam/demo1:29
