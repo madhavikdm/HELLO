@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
-const port = 7878 
-const HOST = '172.31.21.97'
+const port = 8080 
+const HOST = '127.0.0.1'
 
 
 app.get('/ping', (req, res) => {
