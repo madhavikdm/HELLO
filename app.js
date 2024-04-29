@@ -5,8 +5,8 @@ const HOST = '127.0.0.1'
 
 
 app.get('/ping', (req, res) => {
-    console.log('Hello BNT SOFT');
-    res.send('Hello BNT SOFT')
+    console.log('Hello BNT SOFT 1');
+    res.send('Hello BNT SOFT 1')
 })
 
 app.listen(port,() => {
