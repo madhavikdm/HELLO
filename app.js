@@ -4,7 +4,7 @@ const port = 5000
 const HOST = '127.0.0.1'
 
 
-app.get('/ping', (req, res) => {
+app.get('/', (req, res) => {
     console.log('Hello BNT SOFT 1');
     res.send('Hello BNT SOFT 1')
 })
