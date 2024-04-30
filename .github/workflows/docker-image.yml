@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main  # change to your main branch name
+    paths:
+      - main/.github/workflows/docker-image.yml
 
 jobs:
   build-and-deploy:
