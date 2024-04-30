@@ -20,9 +20,9 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
         
     - name: Build Docker image
-      run: docker build -t madhavikadam/demo1:29 .
+      run: docker build -t madhavikadam/demo1:30 .
       
     - name: Push Docker image to Docker Hub
-      run: docker push madhavikadam/demo1:29
+      run: docker push madhavikadam/demo1:30
       
  
