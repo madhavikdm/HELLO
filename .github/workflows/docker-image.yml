@@ -5,7 +5,7 @@ on:
     branches:
       - main  # change to your main branch name
     paths:
-      - main/.github/workflows/docker-image.yml
+      - .github/workflows/docker-image.yml
 
 jobs:
   build-and-deploy:
