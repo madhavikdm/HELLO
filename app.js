@@ -5,8 +5,8 @@ const HOST = '127.0.0.1'
 
 
 app.get('/', (req, res) => {
-    console.log('Hello BNT SOFT 6');
-    res.send('Hello BNT SOFT 6')
+    console.log('Hello BNT SOFT');
+    res.send('Hello BNT SOFT ')
 })
 
 app.listen(port,() => {
